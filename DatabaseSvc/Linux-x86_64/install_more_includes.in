@@ -1,0 +1,8 @@
+document install_more_includes install_more_includes more=DatabaseSvc offset=
+make_fragment make_header /home/liujy/juno/ExternalLibs/CMT/v1r26/mgr/fragments/make_header
+make_fragment dependencies /home/liujy/juno/ExternalLibs/CMT/v1r26/mgr/fragments/dependencies
+make_fragment cleanup_header /home/liujy/juno/ExternalLibs/CMT/v1r26/mgr/fragments/cleanup_header
+make_fragment install_more_includes -header=install_more_includes_header /home/liujy/juno/sniper/SniperPolicy/cmt/fragments/install_more_includes
+make_fragment install_more_includes_header /home/liujy/juno/sniper/SniperPolicy/cmt/fragments/install_more_includes_header
+make_fragment document_header /home/liujy/juno/ExternalLibs/CMT/v1r26/mgr/fragments/document_header
+make_fragment dependency /home/liujy/juno/ExternalLibs/CMT/v1r26/mgr/fragments/dependency
