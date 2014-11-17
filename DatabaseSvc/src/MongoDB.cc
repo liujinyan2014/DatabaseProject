@@ -33,11 +33,11 @@ MyMongoDB::~MyMongoDB() {
     std::cout << "MyMongoDB::~MyMongoDB() End" << std::endl;
 }
 //const std::string& command, 
-MyMongoDB::QueryResult 
+MyMongoDB::QueryRecord 
 MyMongoDB::query( const MyMongoDB::QueryString& qs) {
     
 
-    MyMongoDB::QueryResult result;
+    MyMongoDB::QueryRecord result;
     
     std::auto_ptr<mongo::DBClientCursor> cursor = m_conn->query(
                                           m_dbname, 
@@ -58,8 +58,8 @@ MyMongoDB::query( const MyMongoDB::QueryString& qs) {
 } 
 
 bool 
-MyMongoDB::insert( const MyMongoDB::QueryString& qs) {
-  m_conn->insert( m_dbname, mongo::fromjson(qs));
+MyMongoDB::insert(const MyMongoDB::RecordString& rs) {
+  m_conn->insert( m_dbname, mongo::fromjson(rs));
 
   return true;
 }
@@ -73,9 +73,9 @@ return true;
 }
 
 bool 
-MyMongoDB::update( const MyMongoDB::QueryString& qs){
+MyMongoDB::update( const QueryString& qs, const RecordString& rs){
 
-  m_conn->update(m_dbname,BSONObj(),mongo::fromjson(qs));
+  m_conn->update(m_dbname,query(qs) ,mongo::fromjson(rs));
 
 return true;
 }

@@ -16,12 +16,10 @@ public:
     bool initialize();
     bool finalize();
 
-      QueryRecord query(const QueryString& qs) ;
-
-      bool insert(const RecordString& rs);
-      bool update(const QueryString& qs, const RecordString& rs);
-      bool remove(const QueryString& qs);
-
+    QueryResult query(const QueryString& qs);
+    bool insert(const QueryString& qs);
+    bool remove(const QueryString& qs);
+    bool update(const QueryString& qs);
 private:
 
     std::string m_hostname;

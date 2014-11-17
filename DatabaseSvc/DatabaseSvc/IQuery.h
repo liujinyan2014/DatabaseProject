@@ -6,9 +6,16 @@
 class IQuery {
 public:
     typedef std::string QueryString;
-    typedef std::vector<std::string> QueryResult;
+    typedef std::string RecordString;
+    typedef std::vector<std::string> QueryRecord;
 
-    virtual QueryResult query(const QueryString& qs) = 0;
+    virtual QueryRecord query(const QueryString& qs) = 0;
+
+    virtual  bool insert(const RecordString& rs)=0;
+    virtual  bool update(const QueryString& qs, const RecordString& rs)=0;
+    virtual  bool remove(const QueryString& qs)=0;
+
+
     virtual ~IQuery(){};
 };
 
