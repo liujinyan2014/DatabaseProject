@@ -1,0 +1,62 @@
+#include <iostream>
+ 
+#include "mongo/client/dbclient.h"
+ 
+using namespace std;
+ 
+void insert( mongo::DBClientConnection & c , const char * name , int num ) {
+mongo::BSONObjBuilder obj;
+obj.append( "name" , name );
+obj.append( "num" , num );
+conn.insert( "mydb.testData" , obj.obj() );
+}
+ 
+int main( int argc, const char **argv ) {
+ 
+const char *port = "27017";
+if ( argc != 1 ) {
+if ( argc != 3 )
+throw -12;
+port = argv[ 2 ];
+}
+ 
+mongo::DBClientConnection c;
+string errmsg;
+if ( ! c.connect( string( "127.0.0.1:" ) + port , errmsg ) ) {
+cout << "couldn't connect : " << errmsg << endl;
+throw -11;
+}
+ 
+{
+// clean up old data from any previous tests
+mongo::BSONObjBuilder query;
+c.remove( "mydb.testData" , query.obj() );
+}
+ 
+
+    BSONObj p = BSON( "name" << "yan" << "xuehao" << 11 );
+    c.insert("lianxi.students", p);
+    p = BSON( "name" << "teng" << "xuehao" << 02 );
+    c.insert("lianxi.students", p);
+    p = BSON( "name" << "tao" << "xuehao" << 03 );
+    c.insert("lianxi.students", p);
+    p = BSON( "name" << "mengt" << "xuehao" << BSONNULL);
+    c.insert("lianxi.students", p);
+    p = BSON( "name" << "hxt" << "age" << 38 << "city" << "Ji Nan" << "state" << "Pro" );
+    c.insert("lianxi.students", p);
+    p = BSON( "name" << "Ycx" << "age" << 50 << "city" << "Tian Jin" << "state" << "Pro" );
+    c.insert("lianxi0.people", p);
+
+{
+mongo::BSONObj query = BSON( "num" << BSON( "$nin" << BSON_ARRAY(1 << 5 << 10) ) );
+cout << query << endl;
+ 
+auto_ptr<mongo::DBClientCursor> cursor = c.query( "mydb.testData" , query );
+cout << "using cursor" << endl;
+while ( cursor->more() ) {
+mongo::BSONObj obj = cursor->next();
+cout << "\t" << obj.jsonString() << endl;
+}
+ 
+}
+}
