@@ -20,27 +20,66 @@ DBTest::initialize() {
 
 bool
 DBTest::execute() {
-    SniperPtr<MyMongoDB> query_svc(getScope(), "MyMongoDB");
+    SniperPtr<IQuery> query_svc(getScope(), "MyMongoDB");
     IQuery::QueryString querystr1 = "";
-    IQuery::RecordString querystr2  = "{\"name\":\"lizjing\", \"age\": 25,\"num\":20110056}";
-    IQuery::QueryRecord results = query_svc->query(querystr1);
+    IQuery::RecordString recordstr2  = "{\"name\":\"lizjing\", \"age\": 25,\"num\":20110056}";
+    IQuery::QueryString removestr3 = "{\"name\":\"lizjing\"}";
+    IQuery::QueryString querystr2 = "{\"name\":\"tao\"}";
+    IQuery::RecordString recordstr3 = "{\"name\":\"lintao\"}";
+    //IQuery::QueryRecord results = query_svc->query(querystr1);
+    
+    IQuery::QueryRecord queryrecord;
+    bool query = query_svc->query(querystr1,queryrecord);
+
+    if (!query) {
+        LogError << "..."<< std::endl;
+        return false;
+    }
     
     LogInfo << "+ Result: " << std::endl;
-    for (IQuery::QueryRecord::iterator it = results.begin();
-	 it != results.end();++it) {
+    for (IQuery::QueryRecord::iterator it = queryrecord.begin();
+	 it != queryrecord.end();++it) {
       LogInfo << (*it) << std::endl;
     }
-    LogInfo<<"!!!!!!"<<std::endl;
-    bool result;
-    
-    result = query_svc->insert(querystr2);
 
-    if (result) {
+    
+    if (query) {
+        LogInfo << "query success" << std::endl;
+    }
+    
+
+    LogInfo<<"!!!!!!"<<std::endl;
+
+    
+ 
+    bool insert;
+    insert = query_svc->insert(recordstr2);
+
+    if (insert) {
         LogInfo << "insert success" << std::endl;
     }
 
+    bool remove;
+    
+    remove = query_svc->remove(removestr3);
+
+    if (remove) {
+        LogInfo << "remove success" << std::endl;
+    }
+
+
+ bool update;
+    
+    update = query_svc->update(querystr2,recordstr3);
+
+    if (update) {
+        LogInfo << "remove success" << std::endl;
+    }
+
+
     return true;
 }
+
 
 bool
 DBTest::finalize() {

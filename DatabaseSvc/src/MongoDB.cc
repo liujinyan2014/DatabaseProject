@@ -9,9 +9,6 @@
 
 using namespace std;
 using namespace mongo;
-using std::cout;
-using std::endl;
-using std::string;
 
 DECLARE_SERVICE(MyMongoDB);
 
@@ -33,8 +30,8 @@ MyMongoDB::~MyMongoDB() {
     std::cout << "MyMongoDB::~MyMongoDB() End" << std::endl;
 }
 //const std::string& command, 
-MyMongoDB::QueryRecord 
-MyMongoDB::query( const MyMongoDB::QueryString& qs) {
+bool
+MyMongoDB::query( const MyMongoDB::QueryString& qs, MyMongoDB::QueryRecord& rs ) {
     
 
     MyMongoDB::QueryRecord result;
@@ -44,22 +41,30 @@ MyMongoDB::query( const MyMongoDB::QueryString& qs) {
                                           mongo::fromjson(qs));
 
     if (!cursor.get()) {
-        cout << "query failure" << endl;
-      
+        LogError << "query failure" << endl;
+        return false;
     }
-    cout << "using cursor" << endl;
+   
     while ( cursor->more() ) {
         mongo::BSONObj obj = cursor->next();
         result.push_back(obj.jsonString());
     }
 
-    return result;
+   rs = result;
+   return true;
 
 } 
 
-bool 
+bool
 MyMongoDB::insert(const MyMongoDB::RecordString& rs) {
-  m_conn->insert( m_dbname, mongo::fromjson(rs));
+  
+    m_conn->insert( m_dbname, mongo::fromjson(rs));
+
+    std::string e = m_conn->getLastError();
+  if( !e.empty() ) {
+        LogError << "insert failed: " << e << endl;
+       return false;
+    }
 
   return true;
 }
@@ -67,17 +72,28 @@ MyMongoDB::insert(const MyMongoDB::RecordString& rs) {
 bool
 MyMongoDB::remove( const MyMongoDB::QueryString& qs){
 
-  m_conn->remove(m_dbname,mongo::fromjson(qs));
-
-return true;
+   m_conn->remove(m_dbname,mongo::fromjson(qs));
+   std::string e = m_conn->getLastError();
+  if( !e.empty() ) {
+       LogError << "remove failed: " << e << endl;
+       return false;
+    }
+ 
+  return true;
 }
 
 bool 
 MyMongoDB::update( const QueryString& qs, const RecordString& rs){
+  
+  m_conn->update(m_dbname ,mongo::fromjson(qs),mongo::fromjson(rs));
+  
+   std::string e = m_conn->getLastError();
+  if( !e.empty() ) {
+       LogError << "update failed: " << e << endl;
+       return false;
+    }
 
-  m_conn->update(m_dbname,query(qs) ,mongo::fromjson(rs));
-
-return true;
+  return true;
 }
 
 bool
