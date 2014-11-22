@@ -103,24 +103,6 @@ MyMongoDB::initialize() {
     m_conn = new mongo::DBClientConnection;
     m_conn->connect(m_hostname);
 
-     /* std::string errmsg;
-    ConnectionString cs = ConnectionString::parse("127.0.0.1:27017", errmsg);
-    if (!cs.isValid()) {
-     cout << "error parsing url: " << errmsg << endl;
-     return false;
-    }
-
-    boost::scoped_ptr<DBClientBase> m_conn(cs.connect(errmsg));
-      if (!m_conn) {
-           cout << "couldn't connect: " << errmsg << endl;
-        return false;
-     }
-
-   if (!m_conn->auth("test", "juno", "jiangmen", errmsg)) {
-        cout << "Authentication failed, when it should have succeeded. Got error: " << errmsg << endl;
-        return false;
-    } */
-
     return true;
 }
 
@@ -128,7 +110,10 @@ MyMongoDB::initialize() {
 bool
 MyMongoDB::finalize() {
 
- 
+ BSONObj info;
+
+ m_conn->logout(m_dbname, info);
+LogInfo << "logout seccuss: " << endl;
 return true;
 }
 

@@ -26,7 +26,6 @@ DBTest::execute() {
     IQuery::QueryString removestr3 = "{\"name\":\"lizjing\"}";
     IQuery::QueryString querystr2 = "{\"name\":\"tao\"}";
     IQuery::RecordString recordstr3 = "{\"name\":\"lintao\"}";
-    //IQuery::QueryRecord results = query_svc->query(querystr1);
     
     IQuery::QueryRecord queryrecord;
     bool query = query_svc->query(querystr1,queryrecord);
@@ -73,7 +72,7 @@ DBTest::execute() {
     update = query_svc->update(querystr2,recordstr3);
 
     if (update) {
-        LogInfo << "remove success" << std::endl;
+        LogInfo << "update success" << std::endl;
     }
 
 
@@ -83,5 +82,6 @@ DBTest::execute() {
 
 bool
 DBTest::finalize() {
+
     return true;
 }
