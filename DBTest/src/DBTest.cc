@@ -3,7 +3,7 @@
 #include "SniperKernel/AlgFactory.h"
 #include "SniperKernel/SniperPtr.h"
 #include "DatabaseSvc/IQuery.h"
-#include "DatabaseSvc/MongoDB.h"
+// #include "DatabaseSvc/MongoDB.h"
 //using namespace mongo;
 DECLARE_ALGORITHM(DBTest);
 

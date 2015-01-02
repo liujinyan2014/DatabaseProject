@@ -1,5 +1,6 @@
 #include <mongo/client/dbclient.h>
-#include "DatabaseSvc/MongoDB.h"
+// #include "DatabaseSvc/MongoDB.h"
+#include "MongoDB.h"
 #include <iostream>
 
 #include "SniperKernel/SvcFactory.h"

@@ -16,7 +16,7 @@ public:
     bool initialize();
     bool finalize();
 
-      QueryRecord query(const QueryString& qs) ;
+      bool query(const QueryString& qs, QueryRecord& rs) ;
 
       bool insert(const RecordString& rs);
       bool update(const QueryString& qs, const RecordString& rs);
