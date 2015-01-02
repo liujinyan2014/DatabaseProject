@@ -16,7 +16,8 @@ if __name__ == "__main__":
     dbsvc = task.createSvc("MyMongoDB")
     print dbsvc
     # assume we can query directly
-    results = dbsvc.query("")
+    record = libDatabaseSvc.QueryRecord();
+    dbsvc.query("", record)
     import json
     for r in  results:
         print json.loads(r)

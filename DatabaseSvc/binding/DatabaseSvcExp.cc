@@ -33,8 +33,14 @@ BOOST_PYTHON_MODULE(libDatabaseSvc)
 {
     class_<IQuery::QueryRecord>("QueryRecord")
         .def(vector_indexing_suite<IQuery::QueryRecord>());
+    class_<IQuery::QueryString>("QueryString");
+    class_<IQuery::RecordString>("RecordString");
     class_<IQueryWrap, boost::noncopyable>("IQuery")
-        .def("query", pure_virtual(&IQuery::query));
+        .def("query", pure_virtual(&IQuery::query))
+        .def("insert", pure_virtual(&IQuery::insert))
+        .def("update", pure_virtual(&IQuery::update))
+        .def("remove", pure_virtual(&IQuery::remove))
+        ;
     class_<MyMongoDB, bases<IQuery, SvcBase>, boost::noncopyable>
         ("MyMongDB", init<std::string>());
 }
